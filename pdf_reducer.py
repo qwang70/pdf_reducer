@@ -1,8 +1,8 @@
 import difflib
 import glob
 import sys
+import argparse
 from PyPDF2 import PdfFileWriter, PdfFileReader
-import pdb; pdb.set_trace()
 
 def createFile(fp):
     try:
@@ -48,6 +48,10 @@ def createFile(fp):
        output.write(f)
 
 def main():
+    parser = argparse.ArgumentParser(description='Reduce duplicated PDF pages')
+    parser.add_argument('String', metavar='pdf_filename', type=str, nargs='+',
+                    help='PDF files to be reduced')
+    args = parser.parse_args()
     files = []
     for i in sys.argv[1:]:
         files = files + glob.glob(i)
