@@ -22,6 +22,12 @@ def createFile(fp):
     for i in range(PDF.getNumPages()-1,-1,-1):
         page = PDF.getPage(i)
         curr =  page.extractText()
+        if not curr:
+            if idx > i:
+                rtn.append(idx)
+            rtn.append(i)
+            idx = i - 1
+            continue
         if len(curr)>len(prev):
             length = len(prev)
         else:
@@ -30,6 +36,7 @@ def createFile(fp):
         seq=difflib.SequenceMatcher(lambda x: x == " ",
                 curr[0:length], prev[0:length])
         ratio = seq.ratio()
+        print "page is {}, ratio is {}".format(i, ratio)
         if(ratio<0.8):
             rtn.append(idx)
             idx = i
